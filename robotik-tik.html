@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praktik Lintas Bidang Teknologi AI & Robotik</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        html{
+            scroll-behavior:smooth;
+        }
+
+        body{
+            background:#eef5ff;
+            color:#333;
+        }
+
+        nav{
+            position:fixed;
+            top:0;
+            width:100%;
+            background:#0f172a;
+            padding:18px 8%;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            z-index:999;
+        }
+
+        .logo{
+            color:white;
+            font-size:24px;
+            font-weight:bold;
+        }
+
+        nav ul{
+            display:flex;
+            list-style:none;
+            gap:25px;
+        }
+
+        nav a{
+            color:white;
+            text-decoration:none;
+            transition:.3s;
+        }
+
+        nav a:hover{
+            color:#38bdf8;
+        }
+
+        .hero{
+            height:100vh;
+            background:linear-gradient(135deg,#2563eb,#0f172a);
+            color:white;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            text-align:center;
+            padding:20px;
+        }
+
+        .hero h1{
+            font-size:55px;
+            margin-bottom:20px;
+        }
+
+        .hero p{
+            max-width:700px;
+            margin:auto;
+            font-size:18px;
+            line-height:1.8;
+        }
+
+        .btn{
+            display:inline-block;
+            margin-top:30px;
+            padding:14px 35px;
+            background:#38bdf8;
+            color:white;
+            text-decoration:none;
+            border-radius:40px;
+            transition:.3s;
+        }
+
+        .btn:hover{
+            transform:scale(1.05);
+            background:#0ea5e9;
+        }
+
+        section{
+            padding:90px 8%;
+        }
+
+        .title{
+            text-align:center;
+            font-size:36px;
+            color:#1e3a8a;
+            margin-bottom:50px;
+        }
+
+        .cards{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:25px;
+        }
+
+        .card{
+            background:white;
+            border-radius:15px;
+            padding:25px;
+            box-shadow:0 5px 15px rgba(0,0,0,.1);
+            transition:.3s;
+        }
+
+        .card:hover{
+            transform:translateY(-8px);
+        }
+
+        .card i{
+            font-size:40px;
+            color:#2563eb;
+            margin-bottom:20px;
+        }
+
+        .card h3{
+            margin-bottom:10px;
+        }
+
+        .timeline{
+            border-left:4px solid #2563eb;
+            padding-left:25px;
+        }
+
+        .timeline-item{
+            margin-bottom:35px;
+        }
+
+        .timeline-item h3{
+            color:#2563eb;
+        }
+
+        footer{
+            background:#0f172a;
+            color:white;
+            text-align:center;
+            padding:25px;
+        }
+
+        @media(max-width:768px){
+
+            nav{
+                flex-direction:column;
+            }
+
+            nav ul{
+                margin-top:15px;
+                flex-wrap:wrap;
+                justify-content:center;
+            }
+
+            .hero h1{
+                font-size:38px;
+            }
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+<nav>
+
+<div class="logo">
+🤖 AI & Robotik
+</div>
+
+<ul>
+<li><a href="#ai">AI</a></li>
+<li><a href="#robot">Robotik</a></li>
+<li><a href="#bidang">Penerapan</a></li>
+<li><a href="#timeline">Timeline</a></li>
+<li><a href="#proyek">Proyek</a></li>
+</ul>
+
+</nav>
+
+<section class="hero">
+
+<div>
+
+<h1>Praktik Lintas Bidang<br>Teknologi AI & Robotik</h1>
+
+<p>
+
+Website ini membahas pengertian Artificial Intelligence (AI), Robotika,
+serta penerapannya di berbagai bidang kehidupan seperti pendidikan,
+kesehatan, industri, pertanian, dan transportasi.
+
+</p>
+
+<a href="#ai" class="btn">
+Pelajari Sekarang
+</a>
+
+</div>
+
+</section>
+
+<!-- ================= AI ================= -->
+
+<section id="ai">
+
+    <h2 class="title">🤖 Apa Itu Artificial Intelligence (AI)?</h2>
+    
+    <div class="cards">
+    
+    <div class="card">
+    <i class="fa-solid fa-brain"></i>
+    <h3>Pengertian AI</h3>
+    <p>
+    Artificial Intelligence (AI) adalah teknologi yang memungkinkan komputer atau mesin meniru kemampuan berpikir manusia, seperti belajar, menganalisis data, mengenali pola, dan mengambil keputusan.
+    </p>
+    </div>
+    
+    <div class="card">
+    <i class="fa-solid fa-lightbulb"></i>
+    <h3>Cara Kerja AI</h3>
+    <p>
+    AI bekerja dengan mengumpulkan data, mempelajari pola dari data tersebut, lalu memberikan hasil atau prediksi berdasarkan informasi yang telah dipelajari.
+    </p>
+    </div>
+    
+    <div class="card">
+    <i class="fa-solid fa-mobile-screen-button"></i>
+    <h3>Contoh AI</h3>
+    <p>
+    • ChatGPT<br>
+    • Google Translate<br>
+    • Face Unlock<br>
+    • Google Assistant<br>
+    • Rekomendasi YouTube dan Netflix
+    </p>
+    </div>
+    
+    </div>
+    
+    </section>
+    
+    <!-- ================= ROBOT ================= -->
+    
+    <section id="robot">
+    
+    <h2 class="title">🦾 Apa Itu Robotika?</h2>
+    
+    <div class="cards">
+    
+    <div class="card">
+    <i class="fa-solid fa-robot"></i>
+    <h3>Pengertian Robotika</h3>
+    <p>
+    Robotika adalah cabang ilmu yang mempelajari perancangan, pembuatan, pemrograman, dan pengoperasian robot untuk membantu pekerjaan manusia.
+    </p>
+    </div>
+    
+    <div class="card">
+    <i class="fa-solid fa-microchip"></i>
+    <h3>Komponen Robot</h3>
+    <p>
+    • Sensor<br>
+    • Mikrokontroler (Arduino, ESP32)<br>
+    • Motor / Aktuator<br>
+    • Baterai<br>
+    • Program atau Software
+    </p>
+    </div>
+    
+    <div class="card">
+    <i class="fa-solid fa-gears"></i>
+    <h3>Contoh Robot</h3>
+    <p>
+    • Robot Industri<br>
+    • Robot Vacuum Cleaner<br>
+    • Robot Pelayan<br>
+    • Robot Line Follower<br>
+    • Robot Bluetooth Arduino
+    </p>
+    </div>
+    
+    </div>
+    
+    </section>
+    
+    <!-- ================= PENERAPAN ================= -->
+    
+    <section id="bidang">
+    
+    <h2 class="title">🌍 Penerapan AI & Robotika</h2>
+    
+    <div class="cards">
+    
+    <div class="card">
+    <i class="fa-solid fa-heart-pulse"></i>
+    <h3>Kesehatan</h3>
+    <p>
+    AI membantu dokter menganalisis hasil pemeriksaan, sedangkan robot digunakan dalam operasi dan pelayanan rumah sakit.
+    </p>
+    </div>
+    
+    <div class="card">
+    <i class="fa-solid fa-graduation-cap"></i>
+    <h3>Pendidikan</h3>
+    <p>
+    AI menjadi asisten belajar, memberikan soal adaptif, serta membantu siswa memahami materi lebih cepat.
+    </p>
+    </div>
+    
+    <div class="card">
+    <i class="fa-solid fa-industry"></i>
+    <h3>Industri</h3>
+    <p>
+    Robot digunakan pada proses produksi, pengemasan, dan pemeriksaan kualitas sehingga pekerjaan menjadi lebih cepat dan efisien.
+    </p>
+    </div>
+    
+    <div class="card">
+    <i class="fa-solid fa-seedling"></i>
+    <h3>Pertanian</h3>
+    <p>
+    AI dapat memprediksi cuaca, sedangkan robot dan drone membantu penyemprotan pupuk, pemantauan lahan, serta proses panen.
+    </p>
+    </div>
+    
+    <div class="card">
+    <i class="fa-solid fa-car"></i>
+    <h3>Transportasi</h3>
+    <p>
+    Teknologi AI dimanfaatkan pada navigasi pintar, kendaraan otonom, dan pengaturan lalu lintas agar lebih aman dan efisien.
+    </p>
+    </div>
+    
+    <div class="card">
+    <i class="fa-solid fa-cart-shopping"></i>
+    <h3>Perdagangan</h3>
+    <p>
+    Marketplace memanfaatkan AI untuk memberikan rekomendasi produk, chatbot layanan pelanggan, dan analisis perilaku pembeli.
+    </p>
+    </div>
+    
+    </div>
+    
+    </section>
+
+    <!-- ================= TIMELINE ================= -->
+
+<section id="timeline">
+
+    <h2 class="title">📈 Perkembangan AI</h2>
+    
+    <div class="timeline">
+    
+    <div class="timeline-item">
+    <h3>1950</h3>
+    <p>Alan Turing memperkenalkan gagasan bahwa mesin dapat berpikir seperti manusia.</p>
+    </div>
+    
+    <div class="timeline-item">
+    <h3>1997</h3>
+    <p>Komputer Deep Blue berhasil mengalahkan juara dunia catur Garry Kasparov.</p>
+    </div>
+    
+    <div class="timeline-item">
+    <h3>2016</h3>
+    <p>AlphaGo mengalahkan pemain Go profesional menggunakan kecerdasan buatan.</p>
+    </div>
+    
+    <div class="timeline-item">
+    <h3>2022</h3>
+    <p>AI Generatif seperti ChatGPT mulai digunakan secara luas untuk membantu belajar, bekerja, dan membuat konten.</p>
+    </div>
+    
+    <div class="timeline-item">
+    <h3>Masa Depan</h3>
+    <p>AI dan robot diperkirakan akan semakin banyak digunakan di bidang kesehatan, pendidikan, industri, dan kehidupan sehari-hari.</p>
+    </div>
+    
+    </div>
+    
+    </section>
+    
+    <!-- ================= PROYEK ================= -->
+    
+    <section id="proyek">
+    
+    <h2 class="title">🛠 Contoh Proyek AI & Robotik</h2>
+    
+    <div class="cards">
+    
+    <div class="card">
+    <i class="fa-solid fa-trash"></i>
+    <h3>Smart Trash Bin</h3>
+    <p>Tempat sampah otomatis yang membuka tutup menggunakan sensor ultrasonik.</p>
+    </div>
+    
+    <div class="card">
+    <i class="fa-solid fa-road"></i>
+    <h3>Robot Line Follower</h3>
+    <p>Robot yang mengikuti garis menggunakan sensor inframerah (IR).</p>
+    </div>
+    
+    <div class="card">
+    <i class="fa-solid fa-bluetooth-b"></i>
+    <h3>Robot Bluetooth</h3>
+    <p>Robot yang dikendalikan menggunakan smartphone melalui Bluetooth.</p>
+    </div>
+    
+    <div class="card">
+    <i class="fa-solid fa-house"></i>
+    <h3>Smart Home</h3>
+    <p>Sistem rumah pintar yang mengontrol lampu, kipas, atau pintu secara otomatis.</p>
+    </div>
+    
+    </div>
+    
+    </section>
+    
+    <!-- ================= KELEBIHAN ================= -->
+    
+    <section>
+    
+    <h2 class="title">⭐ Kelebihan AI & Robotika</h2>
+    
+    <div class="cards">
+    
+    <div class="card">
+    <i class="fa-solid fa-bolt"></i>
+    <h3>Cepat</h3>
+    <p>Menyelesaikan pekerjaan lebih cepat dibandingkan proses manual.</p>
+    </div>
+    
+    <div class="card">
+    <i class="fa-solid fa-bullseye"></i>
+    <h3>Akurat</h3>
+    <p>Mengurangi kesalahan manusia pada pekerjaan tertentu.</p>
+    </div>
+    
+    <div class="card">
+    <i class="fa-solid fa-clock"></i>
+    <h3>Efisien</h3>
+    <p>Dapat bekerja selama 24 jam tanpa lelah.</p>
+    </div>
+    
+    </div>
+    
+    </section>
+    
+    <!-- ================= FAQ ================= -->
+    
+    <section>
+    
+    <h2 class="title">❓ FAQ</h2>
+    
+    <div class="cards">
+    
+    <div class="card">
+    <h3>Apakah AI akan menggantikan manusia?</h3>
+    <p>Tidak sepenuhnya. AI dirancang untuk membantu pekerjaan manusia, bukan menggantikan seluruh peran manusia.</p>
+    </div>
+    
+    <div class="card">
+    <h3>Apakah semua robot menggunakan AI?</h3>
+    <p>Tidak. Ada robot yang bekerja hanya berdasarkan program sederhana tanpa kecerdasan buatan.</p>
+    </div>
+    
+    <div class="card">
+    <h3>Mengapa kita perlu belajar AI?</h3>
+    <p>Karena AI menjadi salah satu teknologi yang paling berkembang dan banyak digunakan di berbagai bidang pekerjaan.</p>
+    </div>
+    
+    </div>
+    
+    </section>
+    
+    <!-- ================= FOOTER ================= -->
+    
+    <footer>
+    
+    <h2>Praktik Lintas Bidang Teknologi AI & Robotik</h2>
+    
+    <br>
+    
+    <p>
+    Website ini dibuat sebagai media pembelajaran mengenai Artificial Intelligence (AI) dan Robotika.
+    </p>
+    
+    <br>
+    
+    <p>
+    © 2026 | Dibuat untuk Tugas Praktik Lintas Bidang
+    </p>
+    
+    </footer>
+    
+    <!-- ================= JAVASCRIPT ================= -->
+    
+    <script>
+    
+    // Efek muncul saat halaman dibuka
+    const cards = document.querySelectorAll(".card");
+    
+    const observer = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+            if(entry.isIntersecting){
+                entry.target.style.opacity="1";
+                entry.target.style.transform="translateY(0)";
+            }
+        });
+    });
+    
+    cards.forEach(card=>{
+        card.style.opacity="0";
+        card.style.transform="translateY(40px)";
+        card.style.transition="0.6s";
+        observer.observe(card);
+    });
+    
+    </script>
+    
+    </body>
+    </html>

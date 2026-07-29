@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelompok 6 Terdepan - Praktik Lintas Bidang Teknologi AI & Robotik</title>
+
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- AOS Animation CDN -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* ==========================================================================
+           1. VARIABEL & GLOBAL STYLES
+           ========================================================================== */
+        :root {
+            --primary-blue: #3B82F6;
+            --primary-pink: #EC4899;
+            --light-purple: #C084FC;
+            --bg-light: #F8FAFC;
+            --card-light: rgba(255, 255, 255, 0.75);
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Dark Mode Variable Override */
+        [data-bs-theme="dark"] {
+            --bg-light: #0F172A;
+            --card-light: rgba(30, 41, 59, 0.75);
+            --text-dark: #F8FAFC;
+            --text-muted: #94A3B8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            position: relative;
+        }
+
+        /* Ambient Animated Background Gradient */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(236, 72, 153, 0.05), rgba(192, 132, 252, 0.05));
+            filter: blur(100px);
+        }
+
+        /* Animated Blobs */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: floatBlob 10s infinite alternate ease-in-out;
+        }
+        .blob-1 {
+            top: 10%;
+            left: 10%;
+            width: 300px;
+            height: 300px;
+            background: var(--primary-blue);
+        }
+        .blob-2 {
+            top: 40%;
+            right: 10%;
+            width: 350px;
+            height: 350px;
+            background: var(--primary-pink);
+            animation-delay: -3s;
+        }
+        .blob-3 {
+            bottom: 10%;
+            left: 30%;
+            width: 250px;
+            height: 250px;
+            background: var(--light-purple);
+            animation-delay: -6s;
+        }
+
+        @keyframes floatBlob {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(40px, 50px) scale(1.15); }
+        }
+
+        /* Cursor Glow Effect */
+        #cursor-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.15), rgba(59, 130, 246, 0.15), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: width 0.2s, height 0.2s;
+        }
+
+        /* Scroll Progress Bar */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-blue), var(--primary-pink), var(--light-purple));
+            width: 0%;
+            z-index: 10000;
+            transition: width 0.1s ease-out;
+        }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            inset: 0;
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 99999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        [data-bs-theme="dark"] #loading-screen {
+            background: #0F172A;
+        }
+
+        /* Custom Glassmorphism Card */
+        .glass-card {
+            background: var(--card-light);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            transition: var(--transition-smooth);
+        }
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px 0 rgba(59, 130, 246, 0.25);
+            border-color: var(--primary-blue);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 90px 0;
+            position: relative;
+        }
+        .section-title {
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        /* Custom Modern Buttons */
+        .btn-gradient {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink));
+            color: #fff !important;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 32px;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+            transition: var(--transition-smooth);
+        }
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        /* Ripple Effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple-anim 0.6s linear;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        @keyframes ripple-anim {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* ==========================================================================
+           2. NAVBAR
+           ========================================================================== */
+        .navbar {
+            padding: 18px 0;
+            transition: var(--transition-smooth);
+            background: transparent;
+        }
+        .navbar.scrolled {
+            background: var(--card-light) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: var(--glass-shadow);
+            padding: 12px 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(to right, var(--primary-blue), var(--primary-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-dark) !important;
+            margin: 0 6px;
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-blue) !important;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background: linear-gradient(to right, var(--primary-blue), var(--primary-pink));
+            transition: var(--transition-smooth);
+            transform: translateX(-50%);
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 80%;
+        }
+
+        /* ==========================================================================
+           3. HERO SECTION
+           ========================================================================== */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 120px;
+        }
+        .hero-img {
+            max-width: 100%;
+            border-radius: 30px;
+            animation: float 5s ease-in-out infinite;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+        .typing-text {
+            border-right: 3px solid var(--primary-pink);
+            white-space: nowrap;
+            animation: blink 0.75s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary-pink); }
+        }
+
+        /* ==========================================================================
+           4. TIMELINE SECTION
+           ========================================================================== */
+        .timeline-wrapper {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 30px 10px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+        }
+        .timeline-item {
+            flex: 0 0 280px;
+            scroll-snap-align: start;
+            position: relative;
+        }
+        .timeline-badge {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        /* ==========================================================================
+           5. STATISTIK
+           ========================================================================== */
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary-blue), var(--primary-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ==========================================================================
+           6. GALERI & LIGHTBOX
+           ========================================================================== */
+        .gallery-img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .gallery-img:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+        .lightbox-modal .modal-content {
+            background: transparent;
+            border: none;
+        }
+
+        /* ==========================================================================
+           7. QUIZ
+           ========================================================================== */
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.5);
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 14px 20px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-weight: 500;
+        }
+        [data-bs-theme="dark"] .quiz-option {
+            background: rgba(30, 41, 59, 0.5);
+        }
+        .quiz-option:hover {
+            border-color: var(--primary-blue);
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateX(5px);
+        }
+        .quiz-option.selected {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink));
+            color: white;
+            border-color: transparent;
+        }
+
+        /* ==========================================================================
+           8. BACK TO TOP
+           ========================================================================== */
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition-smooth);
+            z-index: 999;
+        }
+        #backToTop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        #backToTop:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Modern Accordion Customization */
+        .accordion-item {
+            background: transparent !important;
+            border: none !important;
+            margin-bottom: 15px;
+        }
+        .accordion-button {
+            background: var(--card-light) !important;
+            color: var(--text-dark) !important;
+            border-radius: 16px !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            font-weight: 600;
+        }
+        .accordion-button:not(.collapsed) {
+            color: var(--primary-blue) !important;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
+        }
+        .accordion-body {
+            background: var(--card-light);
+            border-radius: 0 0 16px 16px;
+            margin-top: 2px;
+            border: 1px solid var(--glass-border);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <h5 class="mt-3 fw-bold background-gradient text-transparent bg-clip-text">KELOMPOK 6 TERDEPAN</h5>
+    </div>
+
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress"></div>
+
+    <!-- Cursor Glow Effect -->
+    <div id="cursor-glow"></div>
+
+    <!-- Ambient Blobs Background -->
+    <div class="ambient-bg"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <!-- ==========================================================================
+       NAVBAR
+       ========================================================================== -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fa-solid fa-brain me-2"></i>KELOMPOK 6 Terdepan
+            </a>
+            <div class="d-flex align-items-center gap-2 order-lg-3">
+                <!-- Dark Mode Toggle Button -->
+                <button class="btn btn-sm btn-outline-secondary rounded-circle" id="themeToggle" style="width:40px; height:40px;">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                </button>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse justify-content-center order-lg-2" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tentang-ai">Tentang AI</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#robotika">Robotika</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#penerapan">Penerapan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#timeline">Timeline</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#proyek">Proyek</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#quiz">Quiz</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#galeri">Galeri</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==========================================================================
+       HERO SECTION
+       ========================================================================== -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center gy-5">
+                <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1000">
+                    <span class="badge bg-primary-subtle text-primary mb-3 px-3 py-2 rounded-pill fw-semibold">
+                        <i class="fa-solid fa-rocket me-2"></i>Edukasi Teknologi masa depan
+                    </span>
+                    <h1 class="display-4 fw-extrabold mb-3">
+                        <span id="typing-hero" class="typing-text"></span>
+                    </h1>
+                    <p class="lead text-muted mb-4 fs-6">
+                        "Website edukasi mengenai Artificial Intelligence (AI) dan Robotika beserta penerapannya dalam berbagai bidang kehidupan."
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a href="#tentang-ai" class="btn btn-gradient btn-lg">
+                            Mulai Belajar <i class="fa-solid fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center" data-aos="zoom-in" data-aos-duration="1200">
+                    <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=800&auto=format&fit=crop" 
+                         alt="Futuristic AI Robot" class="hero-img img-fluid">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       TENTANG AI SECTION
+       ========================================================================== -->
+    <section id="tentang-ai">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Mengenal Artificial Intelligence</h2>
+                <p class="text-muted">Kecerdasan Buatan yang Mengubah Cara Kerja Dunia</p>
+            </div>
+            <div class="row align-items-center gy-4">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <img src="https://images.unsplash.com/photo-1677442136019-21780efad99a?q=80&w=800&auto=format&fit=crop" 
+                         alt="Artificial Intelligence" class="img-fluid rounded-4 shadow-lg">
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="glass-card p-4 mb-3">
+                        <h5><i class="fa-solid fa-brain text-primary me-2"></i>Pengertian AI</h5>
+                        <p class="text-muted small mb-0">Simulasi kecerdasan manusia yang dimodelkan di dalam mesin dan diprogram agar bisa berpikir layaknya manusia.</p>
+                    </div>
+                    <div class="glass-card p-4 mb-3">
+                        <h5><i class="fa-solid fa-gear text-danger me-2"></i>Cara Kerja AI</h5>
+                        <p class="text-muted small mb-0">Menggabungkan data dalam jumlah besar dengan pengolahan yang cepat, berulang, dan algoritma cerdas (Machine Learning & Deep Learning).</p>
+                    </div>
+                    <div class="glass-card p-4 mb-3">
+                        <h5><i class="fa-solid fa-wand-magic-sparkles text-warning me-2"></i>Manfaat & Contoh</h5>
+                        <p class="text-muted small mb-0">Meningkatkan efisiensi kerja, analisis data presisi. Contoh: ChatGPT, Google Assistant, Sistem Rekomendasi Netflix, dan Face ID.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       ROBOTIKA SECTION
+       ========================================================================== -->
+    <section id="robotika">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Dunia Robotika</h2>
+                <p class="text-muted">Sinergi Antara Mekanika, Elektronika, dan Pemrograman</p>
+            </div>
+            <div class="row align-items-center gy-4 flex-lg-row-reverse">
+                <div class="col-lg-6" data-aos="fade-left">
+                    <img src="https://images.unsplash.com/photo-1546776310-eef45dd6d63c?q=80&w=800&auto=format&fit=crop" 
+                         alt="Robotica" class="img-fluid rounded-4 shadow-lg">
+                </div>
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="glass-card p-4 mb-3">
+                        <h5><i class="fa-solid fa-robot text-primary me-2"></i>Pengertian Robotika</h5>
+                        <p class="text-muted small mb-0">Cabang teknologi interdisipliner yang melibatkan rancangan, konstruksi, operasi, dan penggunaan robot.</p>
+                    </div>
+                    <div class="glass-card p-4 mb-3">
+                        <h5><i class="fa-solid fa-microchip text-success me-2"></i>Komponen Utama</h5>
+                        <p class="text-muted small mb-0">Sensor (Indera), Aktuator (Otot/Penggerak), Kontroler (Otak/Microcontroller), dan Sumber Daya (Baterai).</p>
+                    </div>
+                    <div class="glass-card p-4 mb-3">
+                        <h5><i class="fa-solid fa-industry text-info me-2"></i>Cara Kerja & Contoh</h5>
+                        <p class="text-muted small mb-0">Sensor menerima sinyal lingkungan -> Kontroler memproses data -> Aktuator bergerak. Contoh: Lengan Robot Pabrik, Boston Dynamics Spot, Drone.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       PENERAPAN AI & ROBOTIK (8 Kartu)
+       ========================================================================== -->
+    <section id="penerapan">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Penerapan Lintas Bidang</h2>
+                <p class="text-muted">Transformasi AI dan Robotika dalam Berbagai Sektor Kehidupan</p>
+            </div>
+            <div class="row g-4">
+                <!-- 1. Kesehatan -->
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="glass-card p-4 h-100 text-center">
+                        <i class="fa-solid fa-heart-pulse fa-3x text-danger mb-3"></i>
+                        <h5>Kesehatan</h5>
+                        <p class="text-muted small">Deteksi dini penyakit melalui AI radiologi dan operasi bedah presisi dengan robot medis Da Vinci.</p>
+                    </div>
+                </div>
+                <!-- 2. Pendidikan -->
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="glass-card p-4 h-100 text-center">
+                        <i class="fa-solid fa-graduation-cap fa-3x text-primary mb-3"></i>
+                        <h5>Pendidikan</h5>
+                        <p class="text-muted small">Pembelajaran terpersonalisasi, tutor AI interaktif, dan koreksi tugas otomatis untuk pengajar.</p>
+                    </div>
+                </div>
+                <!-- 3. Industri -->
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="glass-card p-4 h-100 text-center">
+                        <i class="fa-solid fa-industry fa-3x text-warning mb-3"></i>
+                        <h5>Industri</h5>
+                        <p class="text-muted small">Otomatisasi perakitan mobil, robot artikulasi, dan pemeliharaan mesin prediktif.</p>
+                    </div>
+                </div>
+                <!-- 4. Pertanian -->
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="glass-card p-4 h-100 text-center">
+                        <i class="fa-solid fa-seedling fa-3x text-success mb-3"></i>
+                        <h5>Pertanian</h5>
+                        <p class="text-muted small">Drone pemantau kesehatan tanaman, robot pemanen buah, dan analisis unsur tanah berbasis AI.</p>
+                    </div>
+                </div>
+                <!-- 5. Transportasi -->
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="glass-card p-4 h-100 text-center">
+                        <i class="fa-solid fa-car-side fa-3x text-info mb-3"></i>
+                        <h5>Transportasi</h5>
+                        <p class="text-muted small">Mobil otonom (Self-driving), optimasi rute lalu lintas cerdas, dan navigasi armada logistik.</p>
+                    </div>
+                </div>
+                <!-- 6. Perdagangan -->
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="600">
+                    <div class="glass-card p-4 h-100 text-center">
+                        <i class="fa-solid fa-cart-shopping fa-3x text-pink mb-3" style="color: var(--primary-pink);"></i>
+                        <h5>Perdagangan</h5>
+                        <p class="text-muted small">Rekomendasi e-commerce kustom, robot pergudangan Amazon, dan chatbot layanan pelanggan 24/7.</p>
+                    </div>
+                </div>
+                <!-- 7. Keamanan -->
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="700">
+                    <div class="glass-card p-4 h-100 text-center">
+                        <i class="fa-solid fa-shield-halved fa-3x text-purple mb-3" style="color: var(--light-purple);"></i>
+                        <h5>Keamanan</h5>
+                        <p class="text-muted small">Pengenalan wajah (Face Recognition), deteksi anomali siber, dan patroli keamanan otonom.</p>
+                    </div>
+                </div>
+                <!-- 8. Hiburan -->
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="800">
+                    <div class="glass-card p-4 h-100 text-center">
+                        <i class="fa-solid fa-gamepad fa-3x text-secondary mb-3"></i>
+                        <h5>Hiburan</h5>
+                        <p class="text-muted small">NPC cerdas dalam game, pembuatan seni & musik generatif, serta efek visual film otomatis.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       TIMELINE SECTION
+       ========================================================================== -->
+    <section id="timeline">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Timeline Perkembangan</h2>
+                <p class="text-muted">Perjalanan Sejarah Kecerdasan Buatan & Robotika</p>
+            </div>
+            <div class="timeline-wrapper" data-aos="fade-up">
+                <div class="timeline-item">
+                    <div class="glass-card p-4 h-100">
+                        <div class="timeline-badge">1950</div>
+                        <h5>Alan Turing Test</h5>
+                        <p class="text-muted small mb-0">Alan Turing memperkenalkan "Turing Test" sebagai standar pengujian kecerdasan mesin.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="glass-card p-4 h-100">
+                        <div class="timeline-badge">1997</div>
+                        <h5>Deep Blue vs Kasparov</h5>
+                        <p class="text-muted small mb-0">Superkomputer IBM Deep Blue mengalahkan juara catur dunia Garry Kasparov.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="glass-card p-4 h-100">
+                        <div class="timeline-badge">2016</div>
+                        <h5>AlphaGo Miracle</h5>
+                        <p class="text-muted small mb-0">DeepMind AlphaGo mengalahkan juara dunia permainan Go, Lee Sedol.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="glass-card p-4 h-100">
+                        <div class="timeline-badge">2022</div>
+                        <h5>Era AI Generatif</h5>
+                        <p class="text-muted small mb-0">Peluncuran ChatGPT dan Midjourney memicu revolusi konsumsi AI secara publik.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="glass-card p-4 h-100">
+                        <div class="timeline-badge">2026</div>
+                        <h5>Integrasi AI & Humanoid</h5>
+                        <p class="text-muted small mb-0">Robot humanoid berbasis LLM mulai memasuki sektor industri manufaktur dan medis secara massal.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="glass-card p-4 h-100">
+                        <div class="timeline-badge"><i class="fa-solid fa-infinity"></i></div>
+                        <h5>Masa Depan</h5>
+                        <p class="text-muted small mb-0">Menuju AGI (Artificial General Intelligence) dan kolaborasi harmonis manusia-robot.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       STATISTIK SECTION
+       ========================================================================== -->
+    <section id="statistik">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="glass-card p-4 text-center">
+                        <div class="stat-number" data-target="98">0</div>
+                        <p class="text-muted fw-semibold mb-0">% Akurasi AI Medis</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="glass-card p-4 text-center">
+                        <div class="stat-number" data-target="120">0</div>
+                        <p class="text-muted fw-semibold mb-0">+ Negara Mengadopsi AI</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="glass-card p-4 text-center">
+                        <div class="stat-number" data-target="500">0</div>
+                        <p class="text-muted fw-semibold mb-0">+ Sektor Industri</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="glass-card p-4 text-center">
+                        <div class="stat-number" data-target="24">0</div>
+                        <p class="text-muted fw-semibold mb-0">Jam Layanan Otonom</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       PROYEK SECTION (6 Proyek)
+       ========================================================================== -->
+    <section id="proyek">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Contoh Proyek Inovatif</h2>
+                <p class="text-muted">Implementasi AI dan Robotika Unggulan</p>
+            </div>
+            <div class="row g-4">
+                <!-- Proyek 1 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="glass-card overflow-hidden h-100">
+                        <img src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?q=80&w=600&auto=format&fit=crop" class="card-img-top" alt="Project 1" style="height: 200px; object-fit: cover;">
+                        <div class="p-4">
+                            <h5>Smart Healthcare Assistant</h5>
+                            <p class="text-muted small">Sistem AI pendeteksi gejala awal berdasarkan citra medis dan rekam medis pasien.</p>
+                            <button class="btn btn-sm btn-gradient" onclick="alert('Inovasi AI Medis membantu dokter mempercepat diagnosis hingga 50%.')">Pelajari</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Proyek 2 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="glass-card overflow-hidden h-100">
+                        <img src="https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=600&auto=format&fit=crop" class="card-img-top" alt="Project 2" style="height: 200px; object-fit: cover;">
+                        <div class="p-4">
+                            <h5>Autonomous Agriculture Drone</h5>
+                            <p class="text-muted small">Drone cerdas pemantau lahan pertanian dengan pemetaan pemupukan otomatis.</p>
+                            <button class="btn btn-sm btn-gradient" onclick="alert('Drone pertanian menghemat penggunaan air dan pupuk hingga 30%.')">Pelajari</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Proyek 3 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="glass-card overflow-hidden h-100">
+                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop" class="card-img-top" alt="Project 3" style="height: 200px; object-fit: cover;">
+                        <div class="p-4">
+                            <h5>Generative Design Engine</h5>
+                            <p class="text-muted small">Software berbasis AI untuk merancang struktur produk dengan material optimal.</p>
+                            <button class="btn btn-sm btn-gradient" onclick="alert('Memungkinkan pembuatan komponen mesin yang lebih ringan namun jauh lebih kuat.')">Pelajari</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Proyek 4 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="glass-card overflow-hidden h-100">
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=600&auto=format&fit=crop" class="card-img-top" alt="Project 4" style="height: 200px; object-fit: cover;">
+                        <div class="p-4">
+                            <h5>Industrial Arm Manipulator</h5>
+                            <p class="text-muted small">Lengan robot presisi tinggi untuk industri manufaktur mikroelektronika.</p>
+                            <button class="btn btn-sm btn-gradient" onclick="alert('Memiliki tingkat akurasi hingga skala mikron tanpa henti 24/7.')">Pelajari</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Proyek 5 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="glass-card overflow-hidden h-100">
+                        <img src="https://images.unsplash.com/photo-1555255707-c07966088b7b?q=80&w=600&auto=format&fit=crop" class="card-img-top" alt="Project 5" style="height: 200px; object-fit: cover;">
+                        <div class="p-4">
+                            <h5>Smart Traffic Controller</h5>
+                            <p class="text-muted small">Sistem pengatur lampu lalu lintas adaptif berdasarkan kepadatan kendaraan real-time.</p>
+                            <button class="btn btn-sm btn-gradient" onclick="alert('Mengurangi tingkat kemacetan kota hingga 25% pada jam sibuk.')">Pelajari</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Proyek 6 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="glass-card overflow-hidden h-100">
+                        <img src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?q=80&w=600&auto=format&fit=crop" class="card-img-top" alt="Project 6" style="height: 200px; object-fit: cover;">
+                        <div class="p-4">
+                            <h5>AI Cyber Defense Agent</h5>
+                            <p class="text-muted small">Sistem keamanan siber otonom untuk mendeteksi ancaman malware secara proaktif.</p>
+                            <button class="btn btn-sm btn-gradient" onclick="alert('Mampu menetralkan serangan siber dalam hitungan milidetik.')">Pelajari</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       QUIZ INTERAKTIF
+       ========================================================================== -->
+    <section id="quiz">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8" data-aos="zoom-in">
+                    <div class="glass-card p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="section-title">Quiz AI & Robotika</h2>
+                            <p class="text-muted">Uji Pemahaman Anda Mengenai Materi Lintas Bidang</p>
+                        </div>
+
+                        <!-- Quiz Container -->
+                        <div id="quiz-container">
+                            <div class="d-flex justify-content-between mb-3 fw-bold">
+                                <span id="quiz-progress-text">Soal 1 dari 5</span>
+                                <span id="quiz-score-live" class="text-primary">Skor: 0</span>
+                            </div>
+                            <h5 id="quiz-question" class="mb-4">Pertanyaan akan muncul di sini...</h5>
+                            <div id="quiz-options">
+                                <!-- Pilihan Jawaban akan digenerate via JS -->
+                            </div>
+                            <div class="text-end mt-4">
+                                <button id="btn-next-quiz" class="btn btn-gradient" onclick="nextQuestion()" disabled>Selanjutnya</button>
+                            </div>
+                        </div>
+
+                        <!-- Quiz Result Container -->
+                        <div id="quiz-result" class="text-center d-none">
+                            <i class="fa-solid fa-trophy fa-4x text-warning mb-3"></i>
+                            <h3>Quiz Selesai!</h3>
+                            <p class="fs-4 fw-bold my-3">Skor Akhir Anda: <span id="final-score" class="text-primary">0</span>/100</p>
+                            <p id="quiz-feedback" class="text-muted mb-4"></p>
+                            <button class="btn btn-gradient" onclick="restartQuiz()"><i class="fa-solid fa-rotate-right me-2"></i>Ulangi Quiz</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       GALERI (8 Gambar Grid)
+       ========================================================================== -->
+    <section id="galeri">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Galeri Visual</h2>
+                <p class="text-muted">Dokumentasi dan Ilustrasi Dunia Teknologi Masa Depan</p>
+            </div>
+            <div class="row g-3">
+                <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=600&auto=format&fit=crop" class="gallery-img" onclick="openLightbox(this.src)" alt="Visual 1">
+                </div>
+                <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1677442136019-21780efad99a?q=80&w=600&auto=format&fit=crop" class="gallery-img" onclick="openLightbox(this.src)" alt="Visual 2">
+                </div>
+                <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="https://images.unsplash.com/photo-1546776310-eef45dd6d63c?q=80&w=600&auto=format&fit=crop" class="gallery-img" onclick="openLightbox(this.src)" alt="Visual 3">
+                </div>
+                <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="400">
+                    <img src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?q=80&w=600&auto=format&fit=crop" class="gallery-img" onclick="openLightbox(this.src)" alt="Visual 4">
+                </div>
+                <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="500">
+                    <img src="https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=600&auto=format&fit=crop" class="gallery-img" onclick="openLightbox(this.src)" alt="Visual 5">
+                </div>
+                <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="600">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop" class="gallery-img" onclick="openLightbox(this.src)" alt="Visual 6">
+                </div>
+                <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="700">
+                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=600&auto=format&fit=crop" class="gallery-img" onclick="openLightbox(this.src)" alt="Visual 7">
+                </div>
+                <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="800">
+                    <img src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?q=80&w=600&auto=format&fit=crop" class="gallery-img" onclick="openLightbox(this.src)" alt="Visual 8">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div class="modal fade lightbox-modal" id="lightboxModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content text-center">
+                <img id="lightbox-img" src="" class="img-fluid rounded-4 shadow-lg">
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+       FAQ SECTION (Accordion 6 Soal)
+       ========================================================================== -->
+    <section id="faq">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Pertanyaan Umum (FAQ)</h2>
+                <p class="text-muted">Jawaban Seputar Perkembangan AI dan Robotika</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8" data-aos="fade-up">
+                    <div class="accordion" id="faqAccordion">
+                        <!-- FAQ 1 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    Apa perbedaan utama antara AI dan Robotika?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted small">
+                                    AI berfokus pada kecerdasan lunak (perangkat lunak & algoritma berpikir), sedangkan Robotika berfokus pada fisik dan mekanika (perangkat keras). Ketika digabungkan, terciptalah robot cerdas.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FAQ 2 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    Apakah AI akan menggantikan pekerjaan manusia secara total?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted small">
+                                    AI lebih ditujukan untuk mengotomatisasi tugas rutin. AI akan menciptakan jenis pekerjaan baru yang membutuhkan kolaborasi antara kemampuan analitis mesin dan kreativitas manusia.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FAQ 3 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    Apa yang dimaksud dengan Machine Learning?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted small">
+                                    Machine Learning adalah cabang dari AI yang memungkinkan komputer belajar dari data dan meningkatkan akurasinya secara mandiri tanpa harus diprogram secara eksplisit.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FAQ 4 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    Mengapa pembelajaran Praktik Lintas Bidang ini penting?
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted small">
+                                    Karena teknologi masa depan tidak berdiri sendiri. Integrasi antara informatika, mekanika, dan sains memungkinkan penyelesaian masalah dunia nyata yang lebih kompleks.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FAQ 5 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                    Bahasa pemrosesan apa yang paling populer untuk pemrograman AI?
+                                </button>
+                            </h2>
+                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted small">
+                                    Python merupakan bahasa paling dominan karena didukung oleh pustaka melimpah seperti TensorFlow, PyTorch, dan Scikit-Learn, diikuti oleh C++ untuk efisiensi sistem robotik.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FAQ 6 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                    Bagaimana etika penggunaan AI yang bertanggung jawab?
+                                </button>
+                            </h2>
+                            <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted small">
+                                    Etika AI mencakup transparansi algoritma, privasi data pengguna, pencegahan bias sistem, serta keselamatan dalam penggunaan robot otonom.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       KONTAK SECTION
+       ========================================================================== -->
+    <section id="kontak">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8" data-aos="zoom-in">
+                    <div class="glass-card p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="section-title">Hubungi Kami</h2>
+                            <p class="text-muted">Kelompok 6 Terdepan - Pertanyaan & Diskusi Lebih Lanjut</p>
+                        </div>
+                        <form id="contactForm" onsubmit="handleContact(event)">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Nama Lengkap</label>
+                                <input type="text" id="contactName" class="form-control rounded-pill px-3" placeholder="Masukkan nama Anda" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Email</label>
+                                <input type="email" id="contactEmail" class="form-control rounded-pill px-3" placeholder="nama@email.com" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Pesan</label>
+                                <textarea id="contactMessage" class="form-control rounded-4 p-3" rows="4" placeholder="Tuliskan pesan atau tanggapan Anda..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-gradient w-100 mt-2">Kirim Pesan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+    <footer class="py-4 border-top border-secondary-subtle mt-5">
+        <div class="container text-center">
+            <h5 class="fw-bold background-gradient text-transparent bg-clip-text mb-2">KELOMPOK 6 Terdepan</h5>
+            <p class="text-muted small mb-3">Praktik Lintas Bidang Teknologi AI & Robotik</p>
+            <div class="d-flex justify-content-center gap-3 mb-3 fs-5">
+                <a href="#" class="text-muted"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="text-muted"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="text-muted"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#" class="text-muted"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+            <p class="text-muted extra-small mb-0">&copy; 2026 KELOMPOK 6 Terdepan. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" onclick="scrollToTop()">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- ==========================================================================
+       JAVASCRIPT LOGIC
+       ========================================================================== -->
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/bootstrap.bundle.min.js"></script>
+
+    <!-- AOS Animation JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        /* --------------------------------------------------------------------------
+           1. INITIALIZATION & LOADING SCREEN
+           -------------------------------------------------------------------------- */
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loading-screen');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+
+            // Inisialisasi AOS
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 100
+            });
+
+            startTypingEffect();
+            initCounterAnimation();
+            initQuiz();
+        });
+
+        /* --------------------------------------------------------------------------
+           2. SCROLL PROGRESS & NAVBAR TRANSFORM
+           -------------------------------------------------------------------------- */
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('scroll-progress').style.width = scrolled + '%';
+
+            // Navbar Scrolled Effect
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            // Back to Top Button Visibility
+            const backToTopBtn = document.getElementById('backToTop');
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* --------------------------------------------------------------------------
+           3. CURSOR GLOW EFFECT
+           -------------------------------------------------------------------------- */
+        const cursorGlow = document.getElementById('cursor-glow');
+        document.addEventListener('mousemove', (e) => {
+            cursorGlow.style.left = e.clientX + 'px';
+            cursorGlow.style.top = e.clientY + 'px';
+        });
+
+        /* --------------------------------------------------------------------------
+           4. DARK / LIGHT MODE TOGGLE
+           -------------------------------------------------------------------------- */
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+            if (currentTheme === 'light') {
+                document.documentElement.setAttribute('data-bs-theme', 'dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                document.documentElement.setAttribute('data-bs-theme', 'light');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+
+        /* --------------------------------------------------------------------------
+           5. TYPING EFFECT (HERO TITLE)
+           -------------------------------------------------------------------------- */
+        const typingTextElement = document.getElementById('typing-hero');
+        const textToType = "Praktik Lintas Bidang Teknologi AI & Robotik";
+        let charIndex = 0;
+
+        function startTypingEffect() {
+            if (charIndex < textToType.length) {
+                typingTextElement.textContent += textToType.charAt(charIndex);
+                charIndex++;
+                setTimeout(startTypingEffect, 70);
+            }
+        }
+
+        /* --------------------------------------------------------------------------
+           6. COUNTER ANIMATION (STATISTIK)
+           -------------------------------------------------------------------------- */
+        function initCounterAnimation() {
+            const counters = document.querySelectorAll('.stat-number');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = +entry.target.getAttribute('data-target');
+                        let count = 0;
+                        const speed = target / 50;
+
+                        const updateCount = () => {
+                            count += speed;
+                            if (count < target) {
+                                entry.target.innerText = Math.ceil(count);
+                                setTimeout(updateCount, 30);
+                            } else {
+                                entry.target.innerText = target;
+                            }
+                        };
+                        updateCount();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            counters.forEach(counter => observer.observe(counter));
+        }
+
+        /* --------------------------------------------------------------------------
+           7. RIPPLE BUTTON EFFECT
+           -------------------------------------------------------------------------- */
+        document.querySelectorAll('.btn-gradient').forEach(button => {
+            button.addEventListener('click', function (e) {
+                const x = e.clientX - e.target.getBoundingClientRect().left;
+                const y = e.clientY - e.target.getBoundingClientRect().top;
+
+                const ripples = document.createElement('span');
+                ripples.classList.add('ripple');
+                ripples.style.left = x + 'px';
+                ripples.style.top = y + 'px';
+                this.appendChild(ripples);
+
+                setTimeout(() => {
+                    ripples.remove();
+                }, 600);
+            });
+        });
+
+        /* --------------------------------------------------------------------------
+           8. QUIZ INTERAKTIF LOGIC
+           -------------------------------------------------------------------------- */
+        const quizData = [
+            {
+                question: "Apa singkatan dari AI?",
+                options: ["Automated Intelligence", "Artificial Intelligence", "Advanced Integration", "Acoustic Interaction"],
+                correct: 1
+            },
+            {
+                question: "Komponen robot yang berfungsi sebagai 'otak' pemroses data adalah...",
+                options: ["Aktuator", "Sensor", "Kontroler/Microcontroller", "Baterai"],
+                correct: 2
+            },
+            {
+                question: "Tahun berapa Turing Test pertama kali diperkenalkan oleh Alan Turing?",
+                options: ["1945", "1950", "1965", "1997"],
+                correct: 1
+            },
+            {
+                question: "Penerapan AI dalam bidang kesehatan contohnya adalah...",
+                options: ["E-commerce Chatbot", "Deteksi Dini Penyakit dari Radiologi", "Mobil Otonom", "NPC Game"],
+                correct: 1
+            },
+            {
+                question: "Cabang AI yang memungkinkan mesin belajar dari data tanpa diprogram ulang dinamakan...",
+                options: ["Machine Learning", "Robotic Arm", "Hardware Engineering", "Cyber Defense"],
+                correct: 0
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        let score = 0;
+        let selectedOptionIndex = null;
+
+        function initQuiz() {
+            currentQuizIndex = 0;
+            score = 0;
+            document.getElementById('quiz-container').classList.remove('d-none');
+            document.getElementById('quiz-result').classList.add('d-none');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            selectedOptionIndex = null;
+            document.getElementById('btn-next-quiz').disabled = true;
+
+            const q = quizData[currentQuizIndex];
+            document.getElementById('quiz-progress-text').innerText = `Soal ${currentQuizIndex + 1} dari ${quizData.length}`;
+            document.getElementById('quiz-score-live').innerText = `Skor: ${score}`;
+            document.getElementById('quiz-question').innerText = q.question;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const optDiv = document.createElement('div');
+                optDiv.className = 'quiz-option';
+                optDiv.innerText = opt;
+                optDiv.onclick = () => selectOption(idx, optDiv);
+                optionsContainer.appendChild(optDiv);
+            });
+        }
+
+        function selectOption(index, element) {
+            const allOpts = document.querySelectorAll('.quiz-option');
+            allOpts.forEach(o => o.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedOptionIndex = index;
+            document.getElementById('btn-next-quiz').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (selectedOptionIndex === quizData[currentQuizIndex].correct) {
+                score += 20;
+            }
+
+            currentQuizIndex++;
+            if (currentQuizIndex < quizData.length) {
+                showQuestion();
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            document.getElementById('quiz-container').classList.add('d-none');
+            document.getElementById('quiz-result').classList.remove('d-none');
+            document.getElementById('final-score').innerText = score;
+
+            const feedback = document.getElementById('quiz-feedback');
+            if (score >= 80) {
+                feedback.innerText = "Luar biasa! Pemahaman Anda tentang AI dan Robotika sangat mendalam!";
+                triggerConfetti();
+            } else {
+                feedback.innerText = "Bagus! Pelajari kembali materi di atas dan coba lagi untuk mendapatkan nilai sempurna.";
+            }
+        }
+
+        function triggerConfetti() {
+            confetti({
+                particleCount: 120,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        function restartQuiz() {
+            initQuiz();
+        }
+
+        /* --------------------------------------------------------------------------
+           9. LIGHTBOX GALLERY
+           -------------------------------------------------------------------------- */
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            const lightboxModal = new bootstrap.Modal(document.getElementById('lightboxModal'));
+            lightboxModal.show();
+        }
+
+        /* --------------------------------------------------------------------------
+           10. CONTACT FORM VALIDATION & HANDLING
+           -------------------------------------------------------------------------- */
+        function handleContact(e) {
+            e.preventDefault();
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const message = document.getElementById('contactMessage').value;
+
+            if (name && email && message) {
+                alert(`Terima kasih ${name}! Pesan Anda telah terkirim kepada Kelompok 6 Terdepan.`);
+                document.getElementById('contactForm').reset();
+            }
+        }
+    </script>
+</body>
+</html>
